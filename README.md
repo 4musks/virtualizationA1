@@ -36,13 +36,13 @@ To enable nested virtualization for VMs running on Windows 11
 
 # Things to know about MSR checks:
 - MSR checks would let VMM know which VMM capabilities are exposed by CPU.
-- Intel® 64 and IA-32 Architectures SDM (Release April 2022) [(download)](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html) > Volume 3 > Section "24.6.1 through 24.8.1" lists these controls and the capabilities each bit position would represent.
+- Intel® 64 and IA-32 Architectures SDM (Release April 2022) [(download)](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html) > Volume 3 > Section "24.6.1 through 24.8.1" lists these controls and the capabilities that each Bit(1/0) would represent.
   - 24.6.1 Pin-Based VM-Execution Controls(**5**).
   - 24.6.2 (Primary) Processor-Based VM-Execution Controls(**22**).
     - Table 24-7 lists the secondary processor-based VM-execution controls(**28**).
   > If Bit 31 of primary processor-based is 0, that do not support the secondary processor-based VM-execution controls.
     - Table 24-8 lists the tertiary processor-based VM-execution controls(**4**).
-  > If Bit 17 of primary processor-based is 0, that do not support the secondary processor-based VM-execution controls
+  > If Bit 17 of primary processor-based is 0, that do not support the tertiary processor-based VM-execution controls
     - Skip  **report_capability**(refer ![cmpe283-1.c](cmpe283-1.c)) for those(secondary/tertiary) MSRs when their Bit value is 0.
   - 24.7.1 VM-Exit Controls(**17**).
   - 24.8.1 VM-Entry Controls(**13**).
@@ -50,17 +50,19 @@ To enable nested virtualization for VMs running on Windows 11
 
 # Steps to add remaining MSR checks to the kernel module
 
-- Refer the listed sections and tables in Intel SDM and construct a 'struct' for each MSR (5).
+- Refer the listed sections and tables in Intel SDM and construct a 'struct' for remaining MSRs(5).
 - Check for the Bit value at 31 & 17 for (Primary) Processor-Based VM-Execution Controls to skip secondary & tertiary MSRs.
 - Build, load the kernel module and check the logs for custom messages
 ```
 > make
 > sudo insmod cmpe283-1.ko
 > sudo dmesg
+> sudo rmsmod cmpe283-1.ko
 ```
 
 # Contributors
 JAYA KRISHNA THUPILI
+
 # Unlicense  [![License: Unlicense](https://camo.githubusercontent.com/a0f44681d578ce545f4614325d26eac4036b273d21a61de5293af355cb969bac/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d556e6c6963656e73652d626c75652e737667)](http://unlicense.org/) 
 # References
 - [VMWare KB 76918:  VMware workstation with hyper-v or device/credential guard enabled](https://kb.vmware.com/s/article/76918)
