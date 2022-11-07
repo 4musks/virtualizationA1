@@ -93,7 +93,7 @@ To enable nested virtualization for VMs running on Windows 11
 
 ![All_MSR_Controls](resources/8.All_msr_controls.png)
 
-### 2. From the above O/P, `primary_proc_based` MSR Controls shows the availability of **_secondary_** and **_tertiary_** MSRs. Add suitable conditional blocks in function `detect_vmx_features()` to skip querying those unavailable MSRs
+### 2. From the above O/P, `primary_proc_based` MSR Controls shows the availability status of **_secondary_** and **_tertiary_** MSRs. Add suitable conditional blocks in function `detect_vmx_features()` to skip querying those unavailable MSRs
 
 ### 3. Final **_`dmesg`_** O/P listing MSR controls that are available
 
